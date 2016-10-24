@@ -12,7 +12,8 @@ print('Number of missing data: {0}'.format(df.isnull().sum().sum()))
 print('Out of {0} entries, the dataset contains {1} women and {2} men'.format(
          len(df), len(df[df.sex=='Female']), len(df[df.sex=='Male'])))
 df['sex_cat'] = df.sex.map(lambda x: 0 if x=='Female' else 1)
-# print(df.info())
+df.sex = df.sex.astype('category')
+print(df.info())
 
 def plot_hists():
     fig = plt.figure('Ideal and Actual Weights', figsize=(10,8))
