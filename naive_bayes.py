@@ -51,3 +51,19 @@ for i in xrange(len(pred['actual'])):
     print(" -Given an actual and ideal weights of {0} and {1}, respectively, and a weight \
 difference of {2}, the naive Bayes' classifier predict that this person is a {3}".format(
     pred['actual'][i], pred['ideal'][i], pred['diff'][i], str(prediction[0]).lower()))
+    
+    
+'''NB WITHOUT DIFFERENCE'''
+print('\n\nNAIVE BAYES CLASSIFIER WITHOUT USING DIFFERENCE:')
+clf_2 = GaussianNB()
+clf_2.fit(df[['actual', 'ideal']], df.sex)
+score_train = clf_2.score(df[['actual', 'ideal']], df.sex)
+print('Naive Bayes classifier (not using difference) score on training data: {0}'.format(round(score_train, 3)))
+print('Out of {0} entries, {1} were correctly labeled (i.e. {2} were mislabeled)'.format(
+         len(df), round(len(df)*score_train, 0), len(df) - round(len(df)*score_train, 0)))
+print('\nPredictions:')
+for i in xrange(len(pred['actual'])):
+    prediction = clf_2.predict([[pred[x][i] for x in ['actual', 'ideal']]])
+    print(" -Given an actual and ideal weights of {0} and {1}, respectively, \
+the naive Bayes' classifier predict that this person is a {2}".format(
+    pred['actual'][i], pred['ideal'][i], str(prediction[0]).lower()))
