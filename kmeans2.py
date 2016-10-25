@@ -39,6 +39,7 @@ for ob in obs[:-1]:
     for lab in xrange(3):
         plt.scatter(observations[observations.label==lab].GDPperCapita, 
                        observations[observations.label==lab][ob], c=color[lab])
+    plt.xlim([0,50000])
     plt.xlabel('GDP per Capita')
     plt.ylabel(ob)
 
