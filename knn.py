@@ -1,4 +1,4 @@
-'''Unit4 Lesson4'''
+'''Unit4 Lesson4: K-Nearest Neighbors'''
 
 import pandas as pd
 import matplotlib.pyplot as plt
