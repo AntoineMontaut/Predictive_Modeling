@@ -126,6 +126,35 @@ def plot_all():
             plt.xlabel(combination[0])
             plt.ylabel(combination[1])
         
-plot_all()
+# plot_all()
+
+def svc_three_flowers():
+    fig = plt.figure('Three Flowers', figsize=(13, 8))
+    gs = gridspec.GridSpec(2, 3)
+    i = -1
+    for combination in combinations:
+        i += 1
+        axes = plt.subplot(gs[i/3, i%3])
+            
+        svc.fit(df[list(combination)], df['target'])
+        x_min, x_max = df[combination[0]].min() - .1, df[combination[0]].max() + .1
+        y_min, y_max = df[combination[1]].min() - .1, df[combination[1]].max() + .1
+        xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))
+        Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
+
+        # Put the result into a color plot
+        Z = Z.reshape(xx.shape)
+        axes.pcolormesh(xx, yy, Z, cmap=cmap_light)
+
+        # Plot also the training points
+        plt.scatter(df[combination[0]], df[combination[1]], c=df['target'], cmap=cmap_bold)
+        # axes.scatter(df[combination[0]], df[combination[1]], c=df['target'], cmap=cmap_bold)
+        
+        plt.axis('tight')
+        # plt.axis('off')
+        plt.xlabel(combination[0])
+        plt.ylabel(combination[1])
+        
+svc_three_flowers()
 
 plt.show()
