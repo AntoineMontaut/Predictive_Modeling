@@ -27,5 +27,5 @@ def matrix_scatter_plot():
     plt.tight_layout()
     plt.show()
     
-# matrix_scatter_plot()
+matrix_scatter_plot()
 
