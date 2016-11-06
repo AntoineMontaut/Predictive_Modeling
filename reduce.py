@@ -6,6 +6,7 @@ import numpy as np
 from sklearn import datasets
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.preprocessing import StandardScaler
 
 
 iris = datasets.load_iris()
@@ -15,20 +16,20 @@ y = iris.target
 features = ['sepal_len', 'sepal_wid', 'petal_len', 'petal_wid']
 target_names = iris.target_names
 df_X = pd.DataFrame(iris.data, columns=features)
-# df_y = pd.DataFrame(iris.target, columns=['target'])
+df_X_std = pd.DataFrame(StandardScaler().fit_transform(df_X), columns=features)
 df_y = pd.Series(iris.target)
 
 # PCA
 pca = PCA(n_components=2)
-pca.fit(df_X)
+pca.fit(df_X_std)
 
 # LDA
 lda = LinearDiscriminantAnalysis(n_components=2)
-lda.fit(df_X, df_y)
+lda.fit(df_X_std, df_y)
 
 # Transform X
-df_X_pca = pd.DataFrame(pca.transform(df_X))
-df_X_lda = pd.DataFrame(lda.transform(df_X))
+df_X_pca = pd.DataFrame(pca.transform(df_X_std))
+df_X_lda = pd.DataFrame(lda.transform(df_X_std))
 
 # Plot the two transformed X
 
@@ -38,7 +39,7 @@ def plot_pca_lda():
     
     plt.subplot(2, 2, 1)
     for color, i, target_name in zip(colors, [0, 1, 2], target_names):
-        plt.scatter(df_X[df_y==i]['petal_len'], df_X[df_y==i]['petal_wid'], color=color, label=target_name)
+        plt.scatter(df_X_std[df_y==i]['petal_len'], df_X_std[df_y==i]['petal_wid'], color=color, label=target_name)
     plt.legend(loc='lower right', shadow=False, scatterpoints=1)
     plt.title('Best Two Attributes From Cluster Analysis')
     plt.xlabel('Petal Length (cm)')
