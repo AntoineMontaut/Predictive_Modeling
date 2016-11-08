@@ -4,6 +4,7 @@ from sklearn import datasets
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn import svm
+from sklearn.model_selection import train_test_split
 from matplotlib.colors import ListedColormap
 import numpy as np
 import itertools
@@ -155,6 +156,39 @@ def svc_three_flowers():
         plt.xlabel(combination[0])
         plt.ylabel(combination[1])
         
-svc_three_flowers()
+# svc_three_flowers()
 
 plt.show()
+
+
+'''---------------------USE SVM TO PREDICT FLOWER TYPE---------------------'''
+
+
+# print(df.head())
+df_train, df_test = train_test_split(df, test_size=0.4)
+# df_train.index = range(len(df_train))
+# df_test.index = range(len(df_test))
+
+svc = svm.SVC(kernel='linear', C=1)
+svc.fit(df_train[features], df_train['iris'])
+
+df_test['prediction_svc'] = svc.predict(df_test[features])
+score_svc = svc.score(df_test[features], df_test['iris'])
+
+print('\nUsing 60% of the data for training, we get a score of {0} using the svc model (C=1).'.format(
+         round(score_svc, 3)))
+         
+# print(df_train.head())
+# print(df_test.head())
+         
+# See the impact of C (margin)
+# scores_margin = {}
+# for margin in xrange(2, 6):
+    # svc = svm.SVC(kernel='linear', C=margin).fit(df_train[features], df_train['iris'])
+    # scores_margin[str(margin)] = svc.score(df_test[features], df_test['iris'])
+    
+# print('\nImpact of margin parameter in score:')
+# for margin in xrange(2,6):
+    # print('\tC = {0}: score = {1}'.format(margin, 
+             # round(scores_margin[str(margin)], 3)))
+             
