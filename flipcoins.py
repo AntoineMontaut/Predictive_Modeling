@@ -42,5 +42,6 @@ def main():
     print('\nAfter {0} flips, the average fraction of heads is {1}'.format(
              num_flips, round(np.mean(heads_fraction), 3)))
              
+             
 if __name__ == '__main__':
     main()
